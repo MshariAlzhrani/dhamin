@@ -1,54 +1,83 @@
-# ضامن | Dhamin — منصة الوساطة العقارية (جدة / الأفراد)
+# ضامن | Dhamin
 
-موقع كامل: **واجهة** (React + Vite + Tailwind) + **باك اند** (Hono + Better Auth) + **قاعدة بيانات** (SQLite عبر Drizzle).
-عربي/إنجليزي، دارك مود، تكبير/تصغير الخط. الألوان: `#39AB79 #041C16 #FFFFFF #F3F5F5 #000000`.
+**Real estate brokerage platform for Jeddah (individual sellers & buyers)**
+**منصة وساطة عقارية في جدة تربط الأفراد بأمان وشفافية**
 
-> للشرح الكامل من الألف إلى الياء (خاصة الباك اند، وأين تكتب الربط وأين تكتب الـ API): اقرأ **GUIDE.md**.
+Live demo / النسخة التجريبية: https://dhamin.onrender.com/
+(hosted on a free tier: the first load may take ~50 seconds / الاستضافة مجانية وقد يتأخر أول تحميل حوالي 50 ثانية)
 
-## التشغيل على جهازك (ويندوز)
-1. ثبّت Node.js (نسخة LTS) من nodejs.org.
-2. افتح الفولدر `PROJECT 379` في الترمنال (Terminal) واكتب:
-```
-npm install
-npm run setup        # ينشئ ملف .env بمفتاح سري + جداول قاعدة البيانات
-npm run db:seed      # (اختياري) بيانات تجريبية: مستخدمون وعقارات وصفقات
-npm run dev          # يشغّل السيرفر + الواجهة معاً
-```
-3. افتح **http://localhost:5173**
+Built as a team project for the *Software and Interface Design* course (CS379) at Yanbu Industrial College.
+مشروع فريق لمقرر تصميم البرمجيات والواجهات (CS379) في كلية ينبع الصناعية.
 
-حسابات تجريبية (كلمة المرور `Demo@12345`): `khalid@demo.dhamin.test` ، `sara@demo.dhamin.test` ، `abdullah@demo.dhamin.test` ...
+---
 
-## أوامر مهمة
-| الأمر | وظيفته |
+## Features / المميزات
+
+- Browse and filter property listings with image galleries / تصفح العقارات مع فلاتر ومعرض صور
+- Post and manage your own listings (up to 5 per user) / نشر وإدارة إعلاناتك (حد أقصى 5)
+- Deal room: step-by-step deal flow, in-deal chat, and an auto-generated contract / غرفة الصفقة: مراحل واضحة، محادثة، وعقد
+- Auctions and an investment simulator / المزادات ومحاكي الاستثمار
+- Favorites, messages, and support tickets / المفضلة والرسائل وتذاكر الدعم
+- Personal dashboard with charts and an admin panel / لوحة تحكم بالرسوم البيانية ولوحة إدارة
+- Built-in assistant widget (Gemini, optional) / مساعد ذكي مدمج (اختياري)
+- Arabic and English, dark mode, adjustable font size / عربي وإنجليزي ودارك مود وتكبير الخط
+- Server-side protection: rate limiting, input validation (zod), trusted-origin checks / حماية من السيرفر وحدود طلبات وفحص مدخلات
+
+## Tech Stack / التقنيات
+
+| Layer | Tools |
 |---|---|
-| `npm run dev` | تطوير (سيرفر :3000 + واجهة :5173) |
-| `npm run build` | يبني الواجهة في مجلد `dist` |
-| `npm start` | تشغيل الإنتاج: يحدّث الجداول ثم يشغّل السيرفر (يقدّم `dist`) |
-| `npm run db:push` | يطبّق تعديلات `server/db/schema.js` على القاعدة |
-| `npm run db:studio` | متصفح بيانات (Drizzle Studio) لرؤية الجداول |
-| `npm run db:seed -- --reset` | إعادة بناء البيانات التجريبية |
-| `node scripts/smoke-test.js` | اختبار آلي للـ API |
+| Frontend | React, Vite, Tailwind CSS, TypeScript |
+| Backend | Node.js, Hono, Better Auth |
+| Database | SQLite with Drizzle ORM |
+| Validation | zod |
 
-## الهيكل
+Brand colors / الألوان: #39AB79 · #041C16 · #FFFFFF · #F3F5F5 · #000000
+
+## Run locally / التشغيل على جهازك
+
+1. Install Node.js (LTS) from nodejs.org
+2. In the project folder run:
+
+```bash
+npm install
+npm run setup      # creates .env with a secret + database tables
+npm run db:seed    # optional: demo users, properties and deals
+npm run dev        # starts the server (:3000) and the UI (:5173)
 ```
-PROJECT 379/
-├─ server/        ← الباك اند: server.js، auth.js، routes/ (الـ API)، db/schema.js (الجداول)، lib/
-├─ src/           ← الواجهة: pages/ (الصفحات)، components/، providers/، lib/api.ts (الربط)
-├─ public/        ← صور وشعارات ثابتة (public/brand = ملفات الهوية)
-├─ scripts/       ← setup.js، seed.js، smoke-test.js
-├─ data/          ← قاعدة البيانات والصور المرفوعة (لا ترفعه على GitHub)
-├─ vite.config.ts ← تمرير /api للسيرفر أثناء التطوير
-└─ .env           ← الإعدادات السرية
+
+Open http://localhost:5173
+
+Demo accounts (password Demo@12345): khalid@demo.dhamin.test, sara@demo.dhamin.test, abdullah@demo.dhamin.test
+
+## Useful commands / أوامر مهمة
+
+| Command | Purpose |
+|---|---|
+| npm run dev | Development (server + UI) |
+| npm run build | Build the UI into dist |
+| npm start | Production: syncs tables, then serves the app |
+| npm run db:push | Apply changes from server/db/schema.js |
+| npm run db:studio | Browse the data (Drizzle Studio) |
+| npm run db:seed -- --reset | Rebuild demo data |
+| node scripts/smoke-test.js | Automated API test |
+
+## Structure / الهيكل
+
+```
+server/    backend: server.js, auth.js, routes/ (API), db/schema.js, lib/
+src/       frontend: pages/, components/, providers/, lib/api.ts
+public/    static images and brand files
+scripts/   setup.js, seed.js, smoke-test.js
+data/      database and uploads (not pushed to GitHub)
 ```
 
-## النشر على Railway (مختصر)
-1. ارفع المشروع على GitHub (الـ `.gitignore` يمنع رفع `.env` و`data`).
-2. Railway → New Project → Deploy from GitHub.
-3. أضف **Volume** مركّب على `/data`.
-4. Variables: `BETTER_AUTH_SECRET` (نص عشوائي ≥32)، `BETTER_AUTH_URL=https://اسم-موقعك`، `DATABASE_URL=file:/data/dhamin.db`، `UPLOAD_DIR=/data/uploads`، (اختياري) `GEMINI_API_KEY`.
-5. Build: `npm install && npm run build` — Start: `npm start`.
-6. Settings → Networking → Generate Domain، أو Custom Domain (يعطيك CNAME وTXT تضيفهما عند مزوّد الدومين) ثم غيّر `BETTER_AUTH_URL` لدومينك.
+## Deployment / النشر
 
-## صور العروض (جدة)
-ضع صورك الحقيقية في `public/img/listings/<الحي أو نوع العقار>/` ثم `npm run db:seed -- --reset` (التفاصيل في `public/img/listings/README.md`).
-"# dhamin" 
+Deploy from GitHub to Render or Railway. Build: npm install && npm run build. Start: npm start.
+Environment variables: BETTER_AUTH_SECRET (random, 32+ chars), BETTER_AUTH_URL (your site URL), DATABASE_URL, UPLOAD_DIR, and optionally GEMINI_API_KEY. Attach a persistent volume if you need data to survive restarts.
+
+## Docs / التوثيق
+
+- GUIDE.md: full walkthrough, especially the backend (Arabic)
+- server/API.md: API reference
